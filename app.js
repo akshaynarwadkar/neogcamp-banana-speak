@@ -3,13 +3,29 @@ var btntranslate = document.querySelector("#btn-Translate");
 var txtinput = document.querySelector("#txt-input");
 var outputDiv = document.querySelector("#output");
 
+var serverUrl = "https://api.funtranslations.com/translate/minion.json" ;
 
-// console.log(txtinput);
-// console.log(txtinput); -> when we take the cursor to that written part,this shows the exact block the written code is referring to
-// To read this value, we can store that console value as global variable temp and use temp.value to display the input
+
+function errorHandler(){
+	alert("Something is wrong with the server");
+}
+
+function constructurl(text){
+    return serverUrl +"?text=" + text;
+}
+
 
 function clickHandler(){
-    outputDiv.innerText = "ksjdfnnj " + txtinput.value;
+
+    var inputtxt = txtinput.value;
+
+    fetch(constructurl(inputtxt))
+        .then(response => response.json())
+        .then(json => {
+            var translatedTxt = json.contents.translated;
+            outputDiv.innerText = translatedTxt;
+        } )
+        .catch(errorHandler)
 };
 
 
